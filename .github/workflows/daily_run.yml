@@ -31,6 +31,7 @@ jobs:
       run: |
         git config --global user.name "Fajar Aji (Bot)"
         git config --global user.email "fajaraji2515@gmail.com" 
+        git pull origin main --rebase
         git add data/exchange_rates.csv
         git commit -m "Auto-update: Daily Exchange Rate Data"
         git push
