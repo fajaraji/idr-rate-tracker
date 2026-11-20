@@ -1,32 +1,20 @@
-# 📈 IDR Exchange Rate Tracker (Automated ETL)
+# IDR Exchange Rate Tracker
 
-This repository hosts an automated ETL (Extract, Transform, Load) pipeline that tracks the daily exchange rate between the **US Dollar (USD)** and **Indonesian Rupiah (IDR)**.
+Daily USD/IDR observations from Frankfurter, appended to a CSV by Python and recorded in Git history with GitHub Actions.
 
-The project demonstrates a serverless data pipeline architecture using **GitHub Actions** to automate data fetching and version control.
+## Explore the implementation
 
-## 🚀 How It Works
+Each row carries the exchange-rate date returned by the API and the time the script fetched it. Multiple runs can therefore record the same rate date.
 
-This project runs completely on GitHub infrastructure without needing an external server (VPS).
+- [Fetch and append one observation](main.py)
+- [Daily schedule and manual trigger](.github/workflows/daily_run.yml)
+- [Python dependencies](requirements.txt)
 
-1.  **Extract:** A Python script fetches real-time financial data from the public [Frankfurter API](https://www.frankfurter.app/).
-2.  **Transform:** The data is processed and formatted into a structured CSV format with timestamps.
-3.  **Load:** The new data point is appended to the historical dataset (`data/exchange_rates.csv`).
-4.  **Automation:** The process is triggered automatically every day at 00:00 UTC via **GitHub Actions**.
-
-## 🛠 Tech Stack
-
-* **Python:** For data extraction and manipulation (Pandas, Requests).
-* **GitHub Actions:** For CI/CD automation and scheduling (Cron).
-* **Git:** For version control and data history management.
-* **CSV:** For flat-file storage (Data Lake simulation).
-
-## 📂 Project Structure
+## Run one observation
 
 ```bash
-├── .github/workflows
-│   └── daily_run.yml    # Configuration for the automation (Cron Job)
-├── data
-│   └── exchange_rates.csv # The dataset (Historical Data)
-├── main.py              # The Python ETL script
-├── requirements.txt     # Python dependencies
-└── README.md            # Project documentation
+python -m pip install -r requirements.txt
+python main.py
+```
+
+Open [the history](data/exchange_rates.csv) and inspect the last row. The scheduled workflow requests a run at 00:00 UTC (07:00 WIB). On weekends or a manual rerun, compare the API date and fetch timestamp before counting distinct trading days.
